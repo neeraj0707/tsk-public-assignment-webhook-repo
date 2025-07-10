@@ -1,0 +1,137 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Webhook Events</title>
+  <script>
+    async function fetchEvents() {
+      const response = await fetch('/webhook/events');
+      const events = await response.json();
+      const list = document.getElementById('events');
+      list.innerHTML = '';
+
+      events.forEach(event => {
+        const date = new Date(event.timestamp);
+        const formattedDate = date.toLocaleString('en-GB', { timeZone: 'UTC', hour12: true });
+
+        let message = '';
+        if (event.action === 'push') {
+          message = `${event.author} pushed to ${event.to_branch} on ${formattedDate} UTC`;
+        } else if (event.action === 'pull_request') {
+          message = `${event.author} submitted a pull request from ${event.from_branch} to ${event.to_branch} on ${formattedDate} UTC`;
+        } else if (event.action === 'merge') {
+          message = `${event.author} merged branch ${event.from_branch} to ${event.to_branch} on ${formattedDate} UTC`;
+        } else {
+          message = `${event.author} performed ${event.action} on ${formattedDate} UTC`;
+        }
+
+        const li = document.createElement('li');
+        li.textContent = message;
+        list.appendChild(li);
+      });
+    }
+
+    setInterval(fetchEvents, 15000); // Fetch every 15 seconds
+    window.onload = fetchEvents;
+  </script>
+</head>
+<body>
+  <h1>Webhook Events</h1>
+  <ul id="events"></ul>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Webhook Events</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background-color: #eaf2f8;
+      margin-bottom: 10px;
+      padding: 12px 18px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    li:hover {
+      background-color: #d6eaf8;
+    }
+    .timestamp {
+      font-size: 0.9em;
+      color: #555;
+    }
+  </style>
+  <script>
+    async function fetchEvents() {
+      const response = await fetch('/webhook/events');
+      const events = await response.json();
+      const list = document.getElementById('events');
+      list.innerHTML = '';
+
+      events.forEach(event => {
+        const date = new Date(event.timestamp);
+        const formattedDate = date.toLocaleString('en-GB', { timeZone: 'UTC', hour12: true });
+
+        let message = '';
+        if (event.action === 'push') {
+          message = `<strong>${event.author}</strong> pushed to <strong>${event.to_branch}</strong>`;
+        } else if (event.action === 'pull_request') {
+          message = `<strong>${event.author}</strong> submitted a pull request from <strong>${event.from_branch}</strong> to <strong>${event.to_branch}</strong>`;
+        } else if (event.action === 'merge') {
+          message = `<strong>${event.author}</strong> merged branch <strong>${event.from_branch}</strong> to <strong>${event.to_branch}</strong>`;
+        } else {
+          message = `<strong>${event.author}</strong> performed <strong>${event.action}</strong>`;
+        }
+
+        const li = document.createElement('li');
+        li.innerHTML = `${message} on <div class="timestamp">${formattedDate} UTC</div>`;
+        list.appendChild(li);
+      });
+    }
+
+    setInterval(fetchEvents, 15000);
+    window.onload = fetchEvents;
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Webhook Events</h1>
+    <ul id="events"></ul>
+  </div>
+</body>
+</html>
